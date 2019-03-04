@@ -42,7 +42,7 @@ twitter_username:
 github_username: gamgam330
 
 favicon: true
-favicon_location: "images/favicon.ico"
+favicon_location: ""
 
 profile_picture: images/profile.png
 paginate: 5
