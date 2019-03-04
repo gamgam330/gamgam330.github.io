@@ -1,28 +1,28 @@
 # User Settings | Edit there as per required
 
-title: daniellimws
+title: gamgam330
 url: "https://gamgam330.github.io"
 baseurl: ""
 
 # This will show up at the top of index page
 site_heading: >
-    daniellimws <span class="faded">'s blog</span>
+    gamgam330 <span class="faded">'s blog</span>
 
-email: weesoong.lim@gmail.com
-author: Daniel Lim Wee Soong
+email: gamgam0330@naver.com
+author: gamgam330
 # This description will show up in google search results
 # (for index page) etc.
 description: >
     bunch of stuff here
 
 # This will what will show against &copy; in the footer
-copyright: daniellimws
+copyright: gamgam330
 # Toggle your short bio, which will displayed on your index page
 # Just toggle it and run jekyll again to see
 intro: false         # Tip: Remove the span from site_heading if intro is set to true
 # This will be displayed in your intro
 short_bio: >
-    Hello. I'm Daniel.
+    Hi!
 
 permalink: /:title.html
 
@@ -34,12 +34,12 @@ comments: true
 # Note that about_footer should be true if you want
 # to see author information at the bottom of each post
 about_stub: >
-    Hi, I'm Daniel!
+    Hi
 
 about_footer: true
 
-twitter_username: daniellimws
-github_username: daniellimws
+twitter_username: 
+github_username: gamgam330
 
 favicon: true
 favicon_location: "images/favicon.ico"
