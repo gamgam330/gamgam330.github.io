@@ -1,10 +1,8 @@
 ---
 layout: about
 title: about me
-author: Daniel Lim
+author: gamgam330
 permalink: /about
 ---
 
-Hi! My name is Daniel!
-
-This serves as a place for me to record the things I've done.
+Portfolio for me
