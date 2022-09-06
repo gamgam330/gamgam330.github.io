@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Development/Algorithm on gamgam&#39;s blog</title>
+    <link>https://gamgam330.github.io/development/algorithm/</link>
+    <description>Recent content in Development/Algorithm on gamgam&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language>
+    <lastBuildDate>Mon, 05 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/development/algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>테스트당</title>
+      <link>https://gamgam330.github.io/development/algorithm/2022/09/05/test.html/</link>
+      <pubDate>Mon, 05 Sep 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/development/algorithm/2022/09/05/test.html/</guid>
+      <description>&lt;p&gt;위키백과에 따르면, &lt;code&gt;Jenkins&lt;/code&gt;란 &lt;code&gt;CI Tool(Continuous Integration Tool)&lt;/code&gt;로 다수의 개발자들이 하나의 프로그램을 개발할 때 버전 충돌을 방지하기 위해 각자 작업한 내용을 공유 영역에 있는 Git 등의 저장소에 빈번히 업로드 함으로써 지속적 통합이 가능하도록 해준다고 명시되어 있다.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
