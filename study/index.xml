@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Studies on gamgam&#39;s blog</title>
+    <link>https://gamgam330.github.io/study/</link>
+    <description>Recent content in Studies on gamgam&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ko-kr</language><atom:link href="https://gamgam330.github.io/study/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://gamgam330.github.io/study/1/01/01/boj24445.html/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/1/01/01/boj24445.html/</guid>
+      <description>백준 24445 DFS 24445번 문제에 중의사항은 내림차순인것같다. 나는 내림차순을 생각하기 않고 풀다가 한번 틀렸다.
+BFS에서 중요한 개념은 큐와 그래프이다.
+우선 내가 구현한 코드부터 살펴보겠다.
+import java.io.BufferedReader;import java.io.IOException;import java.io.InputStreamReader;import java.util.ArrayList;import java.util.Collections;import java.util.LinkedList;import java.util.Queue;import java.util.StringTokenizer;public class 백준24445 {static ArrayList&amp;lt;Integer&amp;gt;[] list;static int N, M, S;public static void main(String[] args) throws IOException{BufferedReader br = new BufferedReader(new InputStreamReader(System.in));StringTokenizer st = new StringTokenizer(br.readLine());N = Integer.</description>
+    </item>
+    
+  </channel>
+</rss>
