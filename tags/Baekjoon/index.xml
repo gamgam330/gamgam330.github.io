@@ -9,10 +9,10 @@
     <lastBuildDate>Sat, 15 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/tags/Baekjoon/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>백준 24445 BFS</title>
-      <link>https://gamgam330.github.io/study/2022/10/15/boj24445.html/</link>
+      <link>https://gamgam330.github.io/study/baekjoon/2022/10/15/boj24445.html/</link>
       <pubDate>Sat, 15 Oct 2022 00:00:00 +0000</pubDate>
       
-      <guid>https://gamgam330.github.io/study/2022/10/15/boj24445.html/</guid>
+      <guid>https://gamgam330.github.io/study/baekjoon/2022/10/15/boj24445.html/</guid>
       <description>24445번 문제에 중의사항은 내림차순인것같다. 나는 내림차순을 생각하기 않고 풀다가 한번 틀렸다.
 BFS에서 중요한 개념은 큐와 그래프이다.
 우선 내가 구현한 코드부터 살펴보겠다.
