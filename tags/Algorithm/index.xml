@@ -6,7 +6,16 @@
     <description>Recent content in Algorithm on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sat, 15 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/tags/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 04 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/tags/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BOJ 1916</title>
+      <link>https://gamgam330.github.io/study/baekjoon/2022/11/04/boj1916.html/</link>
+      <pubDate>Fri, 04 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/baekjoon/2022/11/04/boj1916.html/</guid>
+      <description>&lt;p&gt;백준 1916번 문제는 다익스트라 문제로 &lt;code&gt;너비우선탐색&lt;/code&gt; 과 &lt;code&gt;우선순위 큐&lt;/code&gt; 개념을 알지못한다면 이 두가지 개념을 먼저 정리하고 오는것을 추천한다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>백준 24445 BFS</title>
       <link>https://gamgam330.github.io/study/baekjoon/2022/10/15/boj24445.html/</link>
