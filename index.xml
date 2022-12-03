@@ -62,5 +62,17 @@ BFS에서 중요한 개념은 &lt;code&gt;큐&lt;/code&gt;와 &lt;code&gt;그래
       <description></description>
     </item>
     
+    <item>
+      <title>mergeSort</title>
+      <link>https://gamgam330.github.io/study/Algorithm/1/01/01/mergeSort.html/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/1/01/01/mergeSort.html/</guid>
+      <description>&lt;p&gt;#정렬&lt;/p&gt;
+&lt;p&gt;##병합정렬
+&lt;code&gt;병합정렬, 퀵정렬, 힙정렬&lt;/code&gt;에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.&lt;/p&gt;</description>
+    </item>
+    
   </channel>
 </rss>

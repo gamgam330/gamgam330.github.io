@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/1/01/01/mergeSort.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">mergeSort</h1>
+        <p class="meta">
+            0001-01-01
+        </p>
+    </header>
+    <section class="post-content"><p>#정렬</p>
+<p>##병합정렬
+<code>병합정렬, 퀵정렬, 힙정렬</code>에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.</p>
+<p>우선 병합정렬부터 살펴보겠다. 병합정렬의 경우 반을 자르고 자르고 내려가 정렬하고자 하는 배열의 원소가 하나가 될 때까지 자르고 Merge과정에서 두 배열의 인덱스 값을 비교하며 붙여나가는 형태이다.</p>
+<p><img src="/images/study/Algorithms/mergeSort/1.png" alt=""></p>
+<p>이런식으로 순환을 이용해 원소가 한 개가 될 때까지 반으로 나누어 나간다.</p>
+<p><img src="/images/study/Algorithms/mergeSort/2.png" alt="">
+<img src="/images/study/Algorithms/mergeSort/3.png" alt="">
+<img src="/images/study/Algorithms/mergeSort/4.png" alt="">
+<img src="/images/study/Algorithms/mergeSort/5.png" alt="">
+<img src="/images/study/Algorithms/mergeSort/6.png" alt=""></p>
+<p>사진처럼 파란부분의 첫 번재 인덱스, 그리고 파란부분의 첫 번째 인덱스를 비교해 더작은값을 다른 배열에 저장시켜주는 방식이다. 병합정렬에서 중요한건 원래 배열이 저장되어있는 저장공간에서 새로운 배열을 만들어 옮기고 또다시 정렬된 배열을 원래 배열로 옮겨두어야 한다는 것이다. 그 이유는 순환이기 때문이다. 이제 코드를 살펴 보겠다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">Merge</span>(<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> arr, <span style="color:#8be9fd">int</span> left, <span style="color:#8be9fd">int</span> mid, <span style="color:#8be9fd">int</span> right, <span style="color:#8be9fd">int</span> len) {
+    <span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> left, j <span style="color:#ff79c6">=</span> mid <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>, t <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    <span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> tmp <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span>)malloc(<span style="color:#ff79c6">sizeof</span>(<span style="color:#8be9fd">int</span>) <span style="color:#ff79c6">*</span> len);
+
+    <span style="color:#ff79c6">while</span> (i <span style="color:#ff79c6">&lt;=</span> mid <span style="color:#ff79c6">&amp;&amp;</span> j <span style="color:#ff79c6">&lt;=</span> right) {
+        <span style="color:#ff79c6">if</span> (arr[i] <span style="color:#ff79c6">&lt;=</span> arr[j]) tmp[t<span style="color:#ff79c6">++</span>] <span style="color:#ff79c6">=</span> arr[i<span style="color:#ff79c6">++</span>];
+        <span style="color:#ff79c6">else</span> tmp[t<span style="color:#ff79c6">++</span>] <span style="color:#ff79c6">=</span> arr[j<span style="color:#ff79c6">++</span>];
+    }
+
+    <span style="color:#ff79c6">while</span> (i <span style="color:#ff79c6">&lt;=</span> mid) tmp[t<span style="color:#ff79c6">++</span>] <span style="color:#ff79c6">=</span> arr[i<span style="color:#ff79c6">++</span>];
+    <span style="color:#ff79c6">while</span> (j <span style="color:#ff79c6">&lt;=</span> right) tmp[t<span style="color:#ff79c6">++</span>] <span style="color:#ff79c6">=</span> arr[j<span style="color:#ff79c6">++</span>];
+
+    i <span style="color:#ff79c6">=</span> left, t <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    <span style="color:#ff79c6">while</span> (i <span style="color:#ff79c6">&lt;=</span> right) arr[i<span style="color:#ff79c6">++</span>] <span style="color:#ff79c6">=</span> tmp[t<span style="color:#ff79c6">++</span>];
+
+    PrintArray(arr, left, right, len);
+    free(tmp);
+}
+
+<span style="color:#8be9fd">void</span> <span style="color:#50fa7b">MergeSort</span>(<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> arr, <span style="color:#8be9fd">int</span> left, <span style="color:#8be9fd">int</span> right, <span style="color:#8be9fd">int</span> len) {
+    <span style="color:#8be9fd">int</span> mid;
+    <span style="color:#ff79c6">if</span> (left <span style="color:#ff79c6">&lt;</span> right) {
+        mid <span style="color:#ff79c6">=</span> (left <span style="color:#ff79c6">+</span> right) <span style="color:#ff79c6">/</span> <span style="color:#bd93f9">2</span>;
+        MergeSort(arr, left, mid, len);
+        MergeSort(arr, mid <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>, right, len);
+        Merge(arr, left, mid, right, len);
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>Merge와 MergeSort두 부분으로 진행이 되는데, MergeSort는 제일 위에 보였던 사진처럼 배열을 계속해서 반으로 쪼개는 부분이고 Merge부분이 아래 값을 비교하며 새로운배열에 정렬해주는 형태를 나타낸 것이다.</p>
+<p>이렇게 병합정렬의 시간복잡도는 <code>O(nlogn)</code>에 해당한다. 점화식으로는 <code>2T(n/2) + Q(n) (후처리식)</code>으로 표현할 수 있는데, 후처리식은 병합과정에 해당한다. 병합정렬은 일반적인경우, 평균의 경우, 최악의 경우에도 모두 O(nlogn)이라는 시간복잡도를 가진다.</p></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+        <p>Next post</p>
+        <a href="https://gamgam330.github.io/archive/">Archive</a>
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>
