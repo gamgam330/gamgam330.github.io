@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/03/heapsort.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">heapSort</h1>
+        <p class="meta">
+            2023-01-03
+        </p>
+    </header>
+    <section class="post-content"><p><code>병합정렬, 퀵정렬, 힙정렬</code>에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.</p>
+<p>힙정렬은 평균적인 시간복잡도와 최악의 경우 시간복잡도가 <code>O(nlogn)</code>으로 병합정렬과 동일하다. 만약 100개의 데이터중 20번째로 작은 값을 찾아야 할때 가장 효율적인 정렬에 해당한다. 다른 정렬알고리즘들은 모든 정렬을 끝내야 20번째로 작은 값을 찾을 수 있지만, 힙정렬의경우 20번의 정렬만으로 20번째로 작은 값을 찾을 수 있기 때문이다.</p>
+<p>힙정렬은 이진탐색트리를 기본으로 정렬이 이루어진다. <code>초기힙만들기</code>과 <code>힙정렬</code>두 단계로 진행이 되는데, 먼저 <code>초기힙만들기</code>부분부터 그림으로 살펴 보겠다.</p>
+<p><img src="/images/study/Algorithms/heapSort/1.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/2.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/3.JPG" alt=""></p>
+<p>초기힙을만드는 부분은 그림으로 이렇게 그릴 수 있다. 내가 그린그림은 최소힙에 해당한다. 설명하자면 아무렇게나 나열되어있는 7 / 9 / 4 / 8 / 6 / 3 배열을 트리의 형태로 바꾸는 단계이다. 초기힙에서 중요한 사항은 트리의 가장 최하위 레벨부터 진행해야 한다는것이다. 이진탐색트리의 성질을 이용해 자식중 더 작은값을 부모와 비교해 만약 부모보다 자식이 더 작다면 부모와 자리를 스왑하는 방법이다. 부모와 자식 자리사이에 스왑이 일어나고 나면 또다시 그 아래자식과 한번더 비교를 한번 더 진행해주어야한다.</p>
+<p><img src="/images/study/Algorithms/heapSort/4.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/5.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/6.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/7.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/8.JPG" alt="">
+<img src="/images/study/Algorithms/heapSort/9.JPG" alt=""></p>
+<p>초기힙이 만들어졌다면 힙정렬의 준비가 끝난것이다. 힙정렬은 위의 사진처럼 진행이 된다. 이진탐색트리의 삭제와 동일한 방법으로 진행이 된다. 루트노드가 삭제되면 가장 마지막에 위치한 노드가 루트노드로 올라와 다시 힙을 만들어 나가는 과정을 반복하며 정렬이 이루어진다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-C" data-lang="C"><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">heapify</span>(<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> arr, <span style="color:#8be9fd">int</span> k, <span style="color:#8be9fd">int</span> len) {
+    <span style="color:#8be9fd">int</span> left <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">2</span> <span style="color:#ff79c6">*</span> k, right <span style="color:#ff79c6">=</span> (<span style="color:#bd93f9">2</span> <span style="color:#ff79c6">*</span> k) <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>;
+    <span style="color:#8be9fd">int</span> larger;
+    <span style="color:#ff79c6">if</span> (right <span style="color:#ff79c6">&lt;=</span> len) { 
+        <span style="color:#ff79c6">if</span> (arr[left] <span style="color:#ff79c6">&gt;</span> arr[right]) {
+            larger <span style="color:#ff79c6">=</span> left;
+        }
+        <span style="color:#ff79c6">else</span> larger <span style="color:#ff79c6">=</span> right;
+    }
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (left <span style="color:#ff79c6">&lt;=</span> len) {
+        larger <span style="color:#ff79c6">=</span> left;
+    }
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">return</span>; 
+    <span style="color:#ff79c6">if</span> (arr[larger] <span style="color:#ff79c6">&gt;</span> arr[k]) {
+        <span style="color:#8be9fd">int</span> tmp <span style="color:#ff79c6">=</span> arr[larger];
+        arr[larger] <span style="color:#ff79c6">=</span> arr[k];
+        arr[k] <span style="color:#ff79c6">=</span> tmp;
+        heapify(arr, larger, len);
+    }
+}
+
+<span style="color:#8be9fd">void</span> <span style="color:#50fa7b">buildHeap</span>(<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> arr, <span style="color:#8be9fd">int</span> len) {
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> len <span style="color:#ff79c6">/</span> <span style="color:#bd93f9">2</span>; i <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">1</span>; i<span style="color:#ff79c6">--</span>) {
+        heapify(arr, i, len);
+    }
+}
+
+<span style="color:#8be9fd">void</span> <span style="color:#50fa7b">heapSort</span>(<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> arr, <span style="color:#8be9fd">int</span> len) {
+    buildHeap(arr, len); 
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> len; i <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">2</span>; i<span style="color:#ff79c6">--</span>) {
+        printf(<span style="color:#f1fa8c">&#34;[%d, %d] swap</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, arr[<span style="color:#bd93f9">1</span>], arr[i]);                  
+        <span style="color:#8be9fd">int</span> tmp <span style="color:#ff79c6">=</span> arr[<span style="color:#bd93f9">1</span>];
+        arr[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">=</span> arr[i];
+        arr[i] <span style="color:#ff79c6">=</span> tmp;
+        heapify(arr, <span style="color:#bd93f9">1</span>, i <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>);
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/03/quicksort.html/">quickSort</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>

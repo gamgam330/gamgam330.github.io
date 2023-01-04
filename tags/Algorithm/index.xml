@@ -6,7 +6,39 @@
     <description>Recent content in Algorithm on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Sun, 13 Nov 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/tags/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 03 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/tags/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>heapSort</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2023/01/03/heapsort.html/</link>
+      <pubDate>Tue, 03 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2023/01/03/heapsort.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;병합정렬, 퀵정렬, 힙정렬&lt;/code&gt;에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>quickSort</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2023/01/03/quicksort.html/</link>
+      <pubDate>Tue, 03 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2023/01/03/quicksort.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;병합정렬, 퀵정렬, 힙정렬&lt;/code&gt;에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>mergeSort</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2022/12/03/mergeSort.html/</link>
+      <pubDate>Sat, 03 Dec 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2022/12/03/mergeSort.html/</guid>
+      <description>&lt;p&gt;#정렬&lt;/p&gt;
+&lt;p&gt;##병합정렬
+&lt;code&gt;병합정렬, 퀵정렬, 힙정렬&lt;/code&gt;에 대해 정리해보도록하겠다.
+단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>BOJ 1647</title>
       <link>https://gamgam330.github.io/study/baekjoon/2022/11/13/boj1647.html/</link>
@@ -33,18 +65,6 @@
       <guid>https://gamgam330.github.io/study/baekjoon/2022/10/15/boj24445.html/</guid>
       <description>&lt;p&gt;24445번 문제에 주의사항은 &lt;code&gt;내림차순&lt;/code&gt;인것같다. 나는 내림차순을 생각하지 않고 풀다가 한번 틀렸다.&lt;br&gt;
 BFS에서 중요한 개념은 &lt;code&gt;큐&lt;/code&gt;와 &lt;code&gt;그래프&lt;/code&gt;이다.&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>mergeSort</title>
-      <link>https://gamgam330.github.io/study/Algorithm/1/01/01/mergeSort.html/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://gamgam330.github.io/study/Algorithm/1/01/01/mergeSort.html/</guid>
-      <description>&lt;p&gt;#정렬&lt;/p&gt;
-&lt;p&gt;##병합정렬
-&lt;code&gt;병합정렬, 퀵정렬, 힙정렬&lt;/code&gt;에 대해 정리해보도록하겠다.
-단순정렬의 시간복잡도는 삽입정렬을 제외한 모든정렬이 O(N^2)이다. 하지만 지금부터 볼 병합정렬과 퀵정렬 힙정렬은 모두 시간복잡도가 단순정렬보다 작다.&lt;/p&gt;</description>
     </item>
     
   </channel>
