@@ -6,7 +6,16 @@
     <description>Recent content on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 03 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>binarySearch</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2023/01/09/binarySearch.html/</link>
+      <pubDate>Mon, 09 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2023/01/09/binarySearch.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;binary search&lt;/code&gt; / 이분탐색은 정렬된 리스트를 절반씩 나눠가며 탐색하는 알고리즘이다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>heapSort</title>
       <link>https://gamgam330.github.io/study/Algorithm/2023/01/03/heapsort.html/</link>
