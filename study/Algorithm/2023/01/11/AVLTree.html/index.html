@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/11/AVLTree.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">AVLTree</h1>
+        <p class="meta">
+            2023-01-11
+        </p>
+    </header>
+    <section class="post-content"><p><code>AVL트리</code> 모든 노드의 왼쪽과 오른쪽 서브트리의 높이차가 1이하인 이진탐색트리를 말한다.</p>
+<p>AVL트리의 경우 트리가 비균형 상태가 되면 스스로 노드들을 재배치 하게된다. AVL트리를 이용해 탐색과 저장은 최악, 최선, 평균 시간복잡도 모두 <code>O(logn)</code> 의 시간복잡도를 가지게 된다. 기본적인 이진탐색트리의 경우 균형이 깨져 한쪽으로만 치우치게 된다면, <code>O(n)</code>의 시간복잡도를 가지게 되지만, AVL트리는 스스로 노드를 재배치 하며 항상 균형이 맞는 트리를 가지게 된다.</p>
+<p>전체적으로 밸런스를 유지하는데, 밸런스의 값이 -1 ~ 1사이를 벗어나면 균형이 깨지게 된다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">get_height</span>(treeNode<span style="color:#ff79c6">*</span> node) {
+    <span style="color:#8be9fd">int</span> height <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        height <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">+</span> MAX(get_height(node<span style="color:#ff79c6">-&gt;</span>left), get_height(node<span style="color:#ff79c6">-&gt;</span>right));
+    }
+    <span style="color:#ff79c6">return</span> height;
+}
+
+<span style="color:#8be9fd">int</span> <span style="color:#50fa7b">get_balance</span>(treeNode<span style="color:#ff79c6">*</span> node) {
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) <span style="color:#ff79c6">return</span> <span style="color:#bd93f9">0</span>;
+    <span style="color:#ff79c6">return</span> get_height(node<span style="color:#ff79c6">-&gt;</span>left) <span style="color:#ff79c6">-</span> get_height(node<span style="color:#ff79c6">-&gt;</span>right);
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>AVL트리는 균형을 맞추는데에 4가지 케이스가 존재한다 <code>RR 케이스</code>, <code>LL 케이스</code>, <code>LR 케이스</code>, <code>RL 케이스</code> 이렇게 4가지의 케이스가 존재한다.</p>
+<ol>
+<li>RR 케이스</li>
+</ol>
+<p><img src="/images/study/Algorithms/AVLTree/1.JPG" alt=""></p>
+<p>RR케이스는 위의 그림과 동일하게 오른쪽으로 기울어져 있는 트리를 균형이 맞도록 <code>Left Rotation</code>해주는 방법이다. 해당 노드를 기준으로 <code>좌회전</code>을 적용하면 불균형이 해소된다. 기본적으로 코드를 설명하자면, 해당 노드가 자기 자신의 자식노드의 왼쪽자식을 연결하고, 자식노드가 해당노드를 연결하는 형태로 회전이 일어난다.</p>
+<ol start="2">
+<li>LL 케이스</li>
+</ol>
+<p><img src="/images/study/Algorithms/AVLTree/2.JPG" alt=""></p>
+<p>LL케이스는 위의 그림과 동일하게 왼쪽으로 기울어져 있는 트리를 균형이 맞도록 <code>Right Rotation</code>해주는 방법이다. 해당 노드를 기준으로 <code>우회전</code>을 적용하면 불균형이 해소된다. LL 케이스의 경우도 마찬가지로 해당노드가 자신의 자식노드의 오른쪽 자식을 연결하고 자식노드가 해당노드를 연결하는 형태로 회전이 일어난다.</p>
+<ol start="3">
+<li>LR 케이스</li>
+</ol>
+<p><img src="/images/study/Algorithms/AVLTree/3.JPG" alt=""></p>
+<p>LR케이스는 위의 그림과 동일하게 지그재그로 기울어져 있는 형태를 띈다. 먼저 <code>Left Rotation</code>을 이용해 위의 설명처럼 <code>좌회전</code>이 발생하게 된다. 이후 LR 케이스는 LL 케이스의 형태로 모양이 바뀌게 되고, 여기서 <code>Right Rotation</code>을 통해 <code>우회전</code>을 한번 더 하고나면 불균형이 해소된다.</p>
+<ol start="4">
+<li>RL 케이스</li>
+</ol>
+<p><img src="/images/study/Algorithms/AVLTree/4.JPG" alt=""></p>
+<p>RL케이스는 LR케이스와 반대모양의 불균형 트리이다. 때문에 LR트리와 반대로 회전이 일어나게 된다. 먼저 <code>Right Rotation</code>을 통해 <code>우회전</code>이 발생하면, RR 케이스의 형태로 모양이 바뀌게 되고, 여기서 <code>Left Rotation</code>을 통해 <code>좌회전</code>을 한번 더 하게되면 불균형이 해소된다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">  9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 53
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 54
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 55
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 56
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 57
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 58
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 59
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 60
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 61
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 62
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 63
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 64
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 65
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 66
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 67
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 68
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 69
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 70
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 71
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 72
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 73
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 74
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 75
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 76
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 77
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 78
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 79
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 80
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 81
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 82
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 83
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 84
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 85
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 86
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 87
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 88
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 89
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 90
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 91
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 92
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 93
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 94
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 95
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 96
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 97
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 98
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 99
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">100
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">rotate_right</span>(treeNode<span style="color:#ff79c6">*</span> parent) {
+    <span style="color:#ff79c6">if</span> (parent<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        treeNode<span style="color:#ff79c6">*</span> child <span style="color:#ff79c6">=</span> parent<span style="color:#ff79c6">-&gt;</span>left;
+        parent<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> child<span style="color:#ff79c6">-&gt;</span>right;
+        child<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> parent;
+        <span style="color:#ff79c6">return</span> child;
+    }
+    <span style="color:#ff79c6">else</span> {
+        <span style="color:#ff79c6">return</span>;
+    }
+}
+
+treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">rotate_left</span>(treeNode<span style="color:#ff79c6">*</span> parent) {
+    <span style="color:#ff79c6">if</span> (parent<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        treeNode<span style="color:#ff79c6">*</span> child <span style="color:#ff79c6">=</span> parent<span style="color:#ff79c6">-&gt;</span>right;
+        parent<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> child<span style="color:#ff79c6">-&gt;</span>left;
+        child<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> parent;
+        <span style="color:#ff79c6">return</span> child;
+    }
+    <span style="color:#ff79c6">else</span> {
+        <span style="color:#ff79c6">return</span>;
+    }
+
+}
+
+treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">insert</span>(treeNode<span style="color:#ff79c6">*</span> node, <span style="color:#8be9fd">int</span> key) {
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        <span style="color:#ff79c6">return</span> create_node(key);
+    }
+    <span style="color:#ff79c6">if</span> (key <span style="color:#ff79c6">&lt;</span> node<span style="color:#ff79c6">-&gt;</span>data) node<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> insert(node<span style="color:#ff79c6">-&gt;</span>left, key);
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (key <span style="color:#ff79c6">&gt;</span> node<span style="color:#ff79c6">-&gt;</span>data) node<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> insert(node<span style="color:#ff79c6">-&gt;</span>right, key);
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">return</span> node;
+
+    <span style="color:#8be9fd">int</span> balance <span style="color:#ff79c6">=</span> get_balance(node);
+
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> key <span style="color:#ff79c6">&lt;</span> node<span style="color:#ff79c6">-&gt;</span>left<span style="color:#ff79c6">-&gt;</span>data) <span style="color:#ff79c6">return</span> rotate_right(node);
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&lt;</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> key <span style="color:#ff79c6">&gt;</span> node<span style="color:#ff79c6">-&gt;</span>right<span style="color:#ff79c6">-&gt;</span>data) <span style="color:#ff79c6">return</span> rotate_left(node)
+
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> key <span style="color:#ff79c6">&gt;</span> node<span style="color:#ff79c6">-&gt;</span>left<span style="color:#ff79c6">-&gt;</span>data) {
+        node<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> rotate_left(node<span style="color:#ff79c6">-&gt;</span>left); 
+        <span style="color:#ff79c6">return</span> rotate_right(node);
+    }
+
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&lt;</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> key <span style="color:#ff79c6">&lt;</span> node<span style="color:#ff79c6">-&gt;</span>right<span style="color:#ff79c6">-&gt;</span>data) { 
+        node<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> rotate_right(node<span style="color:#ff79c6">-&gt;</span>right);
+        <span style="color:#ff79c6">return</span> rotate_left(node);
+    }
+    <span style="color:#ff79c6">return</span> node;
+}
+
+
+treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">min_value_node</span>(treeNode<span style="color:#ff79c6">*</span> node) {
+    treeNode<span style="color:#ff79c6">*</span> current <span style="color:#ff79c6">=</span> node;
+    <span style="color:#ff79c6">while</span> (current<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>)
+        current <span style="color:#ff79c6">=</span> current<span style="color:#ff79c6">-&gt;</span>left;
+    <span style="color:#ff79c6">return</span> current;
+}
+
+treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">delete_node</span>(treeNode<span style="color:#ff79c6">*</span> root, <span style="color:#8be9fd">int</span> data) {
+    <span style="color:#ff79c6">if</span> (root <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>)<span style="color:#ff79c6">return</span> root;
+
+    <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&lt;</span> root<span style="color:#ff79c6">-&gt;</span>data)
+        root<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>left, data);
+
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&gt;</span> root<span style="color:#ff79c6">-&gt;</span>data)
+        root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>right, data);
+
+    <span style="color:#ff79c6">else</span> {
+        <span style="color:#ff79c6">if</span> (root<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> root<span style="color:#ff79c6">-&gt;</span>right;
+            free(root);
+            <span style="color:#ff79c6">return</span> temp;
+        }
+        <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> root<span style="color:#ff79c6">-&gt;</span>left;
+            free(root);
+            <span style="color:#ff79c6">return</span> temp;
+        }
+        treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> min_value_node(root<span style="color:#ff79c6">-&gt;</span>right);
+        root<span style="color:#ff79c6">-&gt;</span>data <span style="color:#ff79c6">=</span> temp<span style="color:#ff79c6">-&gt;</span>data;
+        root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>right, temp<span style="color:#ff79c6">-&gt;</span>data);
+    }
+
+    <span style="color:#8be9fd">int</span> balance <span style="color:#ff79c6">=</span> get_balance(root);
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> get_balance(root<span style="color:#ff79c6">-&gt;</span>left) <span style="color:#ff79c6">&gt;=</span> <span style="color:#bd93f9">0</span>) {
+        <span style="color:#ff79c6">return</span> rotate_right(root);
+    }
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> get_balance(root<span style="color:#ff79c6">-&gt;</span>left) <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">0</span>) {
+        root<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> rotate_left(root<span style="color:#ff79c6">-&gt;</span>left);
+        <span style="color:#ff79c6">return</span> rotate_right(root);
+    }
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&lt;</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> get_balance(root<span style="color:#ff79c6">-&gt;</span>right) <span style="color:#ff79c6">&lt;=</span> <span style="color:#bd93f9">0</span>) {
+        <span style="color:#ff79c6">return</span> rotate_left(root);
+    }
+    <span style="color:#ff79c6">if</span> (balance <span style="color:#ff79c6">&lt;</span> <span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span> <span style="color:#ff79c6">&amp;&amp;</span> get_balance(root<span style="color:#ff79c6">-&gt;</span>right) <span style="color:#ff79c6">&gt;</span> <span style="color:#bd93f9">0</span>) {
+        root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> rotate_right(root<span style="color:#ff79c6">-&gt;</span>right);
+        <span style="color:#ff79c6">return</span> rotate_left(root);
+    }
+    <span style="color:#ff79c6">return</span> root;
+}
+</code></pre></td></tr></table>
+</div>
+</div></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/10/hashTable.html/">hashTable</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>

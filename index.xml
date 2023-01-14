@@ -6,7 +6,16 @@
     <description>Recent content on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Tue, 10 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 11 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>AVLTree</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2023/01/11/AVLTree.html/</link>
+      <pubDate>Wed, 11 Jan 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2023/01/11/AVLTree.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;AVL트리&lt;/code&gt; 모든 노드의 왼쪽과 오른쪽 서브트리의 높이차가 1이하인 이진탐색트리를 말한다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>hashTable</title>
       <link>https://gamgam330.github.io/study/Algorithm/2023/01/10/hashTable.html/</link>
