@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/16/BST.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">Binary Search Tree</h1>
+        <p class="meta">
+            2023-01-16
+        </p>
+    </header>
+    <section class="post-content"><p><code>이진검색트리(Binary Search Tree)</code>는 검색 방법 중 한가지로, 다음과 같은 특징을 갖는다.</p>
+<ol>
+<li>이진 검색 트리의 각 노드는 키 값을 하나씩 갖는다. 각 노드의 키 값은 모두 달라야 한다.</li>
+<li>최상위 레벨에 루트 노드가 있고, 각 노드는 최대 두 개의 자식 노드를 갖는다.</li>
+<li>임의의 노드의 키 값은 자신의 왼쪽에 있는 모든 노드의 키 값보다 크고, 오른쪽에 있는 모든 노드의 키 값보다 작다.</li>
+</ol>
+<p>지금부터 이진검색트리의 검색, 삽입, 삭제에 대해 살펴보도록 하겠다.</p>
+<p><code>검색</code>에서 만약 키가 x인 노드를 검색하고자 할때 트리에 키가 x인 노드가 존재하면 해당 노드를 리턴하고, 존재하지 않으면 NIL을 리턴하도록 한다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">search_node</span>(treeNode<span style="color:#ff79c6">*</span> node, <span style="color:#8be9fd">int</span> data) {
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>)
+        <span style="color:#ff79c6">return</span> <span style="color:#8be9fd;font-style:italic">NULL</span>;
+    <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">==</span> node<span style="color:#ff79c6">-&gt;</span>data)
+        <span style="color:#ff79c6">return</span> node;
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&lt;</span> node<span style="color:#ff79c6">-&gt;</span>data)
+        <span style="color:#ff79c6">return</span> search_node(node<span style="color:#ff79c6">-&gt;</span>left, data);
+    <span style="color:#ff79c6">else</span>
+        <span style="color:#ff79c6">return</span> search_node(node<span style="color:#ff79c6">-&gt;</span>right, data);
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>알고리즘의 입력으로는 검색할 트리의 루트 노드 node와 검색하고자 하는 키 data가 주어진다. 루트 노드 node의 키 값과 data를 비교해 data가 더 작으면 node의 왼쪽 서브 트리로 가서 data를 찾는다. data가 더 크면 node의 오른쪽 서브 트리로 가서 data를 찾는다. 만약 node가 NIL이면 검색 실패, 값을 찾는다면 검색 성공이다.</p>
+<p><code>삽입</code>에서는 원소 x를 이진검색트리에 삽입하기위해 우선 이진 검색트리에 x를 키 값으로 가진 노드가 없어야 한다. 원소 x를 삽입할 자리를 찾기 위해서는 우선 실패하는 검색을 한 번 수행해야 한다. 즉, 루트 노드에서 x에 대한 검색을 수행해 임의의 리프 노드에 이르러 더 이상 내려갈 곳이 없음이 확인되면 x를 그 리프 노드의 자식으로 매단다. 그림으로 30, 20, 25, 40, 10, 35의 순서로 원소가 삽입되는 경우를 살펴보도록 하겠다.</p>
+<p><img src="/images/study/Algorithms/BST/1.JPG" alt="">
+<img src="/images/study/Algorithms/BST/2.JPG" alt=""></p>
+<p>아무것도 없는 상태에서 30이 삽입되면 30 하나만으로 이루어진 트리가 만들어진다. 
+20이 입력되면 30보다 작으므로 30의 왼쪽에 매단다.
+25가 입력되면 30보다 작으므로 30의 왼쪽으로 간다. 20보다는 크므로 20의 오른쪽에 매단다.</p>
+<p>이런식으로 작다면 왼쪽 크다면 오른쪽으로 내려가면서 NIL을 만났을때 매달면된다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">insert</span>(treeNode<span style="color:#ff79c6">*</span> node, <span style="color:#8be9fd">int</span> data) {
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        <span style="color:#ff79c6">return</span> create_node(data);
+    }
+    <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&lt;</span> node<span style="color:#ff79c6">-&gt;</span>data) node<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> insert(node<span style="color:#ff79c6">-&gt;</span>left, data);
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&gt;</span> node<span style="color:#ff79c6">-&gt;</span>data) node<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> insert(node<span style="color:#ff79c6">-&gt;</span>right, data);
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">return</span> node;
+
+    <span style="color:#ff79c6">return</span> node;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>내가 짠 코드에서는 따로 중복 검사를 하지않았다.</p>
+<p>이진검색트리에서 삽입은 노드가 삽입될 자리만 정해지면 간단하다. 하지만 <code>삭제</code>의 경우는 상제할 노드가 정해진 이후가 더 복잡하다. 이진 검색 트리에서 노드 r을 삭제하고자 할 때는 다음 세가지의 경우에 따라 각각 다르게 처리해 주어야한다.</p>
+<p>r이 리프노드인 경우
+r의 자식노드가 하나인 경우
+r의 자식노드가 두 개인 경우</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">treeNode<span style="color:#ff79c6">*</span> <span style="color:#50fa7b">delete_node</span>(treeNode<span style="color:#ff79c6">*</span> root, <span style="color:#8be9fd">int</span> data) {
+    <span style="color:#ff79c6">if</span> (root <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>)<span style="color:#ff79c6">return</span> root;
+
+    <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&lt;</span> root<span style="color:#ff79c6">-&gt;</span>data)
+        root<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>left, data);
+
+    <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (data <span style="color:#ff79c6">&gt;</span> root<span style="color:#ff79c6">-&gt;</span>data)
+        root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>right, data);
+
+    <span style="color:#ff79c6">else</span> {
+        <span style="color:#ff79c6">if</span> (root<span style="color:#ff79c6">-&gt;</span>left <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> root<span style="color:#ff79c6">-&gt;</span>right;
+            free(root);
+            <span style="color:#ff79c6">return</span> temp;
+        }
+        <span style="color:#ff79c6">else</span> <span style="color:#ff79c6">if</span> (root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">==</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> root<span style="color:#ff79c6">-&gt;</span>left;
+            free(root);
+            <span style="color:#ff79c6">return</span> temp;
+        }
+        treeNode<span style="color:#ff79c6">*</span> temp <span style="color:#ff79c6">=</span> min_value_node(root<span style="color:#ff79c6">-&gt;</span>right);
+        root<span style="color:#ff79c6">-&gt;</span>data <span style="color:#ff79c6">=</span> temp<span style="color:#ff79c6">-&gt;</span>data;
+        root<span style="color:#ff79c6">-&gt;</span>right <span style="color:#ff79c6">=</span> delete_node(root<span style="color:#ff79c6">-&gt;</span>right, temp<span style="color:#ff79c6">-&gt;</span>data);
+    }
+    <span style="color:#ff79c6">return</span> root;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>리프노드이거나 자식이 하나인 경우에는 부모의 부모가 자식을 연결해주면 되지만, 자식이 두개인 경우에는 조금 복잡하다. 자식이 두개인 경우에는 왼쪽 서브트리에서 가장 큰 리프노드나 오른쪽 서브트리에서 가장 작은 리프노드와 부모노드의 자리를 바꾸어 연결을 끊어 줘야한다.</p>
+<p>이렇게 이진검색트리의 <code>검색</code>, <code>삽입</code>, <code>삭제</code>에 대해 알아보았다. 이진검색트리는 데이터의 검색, 삽입, 삭제에서 쓰이는 알고리즘으로 최악의 경우에 대해 알아보겠다.</p>
+<p><img src="/images/study/Algorithms/BST/3.JPG" alt=""></p>
+<p>이렇게 10, 20, 25, 30, 40의 순서로 삽입이 될 경우, 오른쪽으로 기울어진 트리가 완성된다 이런 트리는 40의 데이터를 찾고자 할때 5번의 비교가 이루어진다. 즉 시간복잡도가 <code>O(n)</code>이라는 의미이다. 이진검색트리가 균형이 잡히면 최악의 경우라도 검색시간은 <code>O(logn)</code>의 시간복잡도를 가진다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">int</span> sum <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>, count1 <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+<span style="color:#8be9fd">int</span> <span style="color:#50fa7b">ipl</span>(treeNode<span style="color:#ff79c6">*</span> node, <span style="color:#8be9fd">int</span> count) {
+    <span style="color:#ff79c6">if</span> (node <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+        sum <span style="color:#ff79c6">+=</span> count;
+        ipl(node<span style="color:#ff79c6">-&gt;</span>left, count <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>);
+        ipl(node<span style="color:#ff79c6">-&gt;</span>right, count <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>);
+    }
+    <span style="color:#ff79c6">return</span> sum;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>이렇게 <code>IPL(이진검색트리의 평균 검색시간)</code>을 확인해 트리의 성능을 비교할 수 있다. 이렇게 균형이 깨지면 취약한 이진검색트리를 보완한 트리가 <code>레드블랙트리</code>와 <code>AVL트리</code>이다.</p></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/14/Graph.html/">Graph</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>
