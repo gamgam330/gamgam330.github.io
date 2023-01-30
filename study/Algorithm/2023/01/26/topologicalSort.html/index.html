@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/26/topologicalSort.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">topologicalSort</h1>
+        <p class="meta">
+            2023-01-26
+        </p>
+    </header>
+    <section class="post-content"><p><code>위상정렬</code>은 순서가 정해져 있는 일련의 작업을 차례때로 수행해야 할 때 사용할 수 있는 알고리즘이다.</p>
+<p>완수해야할 여러 가지 일이 있고 이들 간에 상호 선후 관계가 있다. 한 사람이 라면을 끓일 떄는 어떤 순서로 일을 할 수 있는지 살펴보도록 하겠다.</p>
+<ol>
+<li>냄비에 물 붓기</li>
+<li>점화</li>
+<li>라면봉지 뜯기</li>
+<li>라면 넣기</li>
+<li>스프 넣기</li>
+<li>계란 풀어넣기</li>
+</ol>
+<p>이러한 방법 이외에도</p>
+<ol>
+<li>라면봉지 뜯기</li>
+<li>냄비에 물 붓기</li>
+<li>점화</li>
+<li>라면 넣기</li>
+<li>스프 넣기</li>
+<li>계란 풀어넣기</li>
+</ol>
+<p>의 방법으로 진행되어도 무방하다.</p>
+<p>이렇게 라면봉지뜯기, 냄비에 물 붓기에는 선후 관계가 없다. 라면 넣기와 스프 넣기도 선후관계가 없으므로 순서가 뒤바뀌어도 무방하다.</p>
+<p><img src="/images/study/Algorithms/topologicalSort/1.JPG" alt=""></p>
+<p>위의 그림에서 작업 i와 작업 j 사이에 간선 (i,j)가 존재한다면 작업 i는 반드시 작업 j보다 먼저 수행된다. 그림의 모든 간선에 대해서 이 성질만 만족하면 어떤 순서라도 좋다. 이런 성질을 만족하는 정렬을 위상정렬이라고 한다.</p>
+<p>위상정렬은 싸이클이 없는 유향 그래프에서 모든 정점을 일렬로 나열하되 정점 x에서 정점 y로 가는 간선이 있으면 x는 반드시 y보다 앞에 존재하게된다.</p>
+<p><img src="/images/study/Algorithms/topologicalSort/2.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/3.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/4.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/5.JPG" alt=""></p>
+<p>위 사진은 첫번째 위상정렬 방법이다. 이 첫번째 위상정렬은 각 정점에 연결된 간선을 구하고 연결된 간선이 없다면 출력 후 정점이 사라지는 방법이다. 정점이 사라지며 간선또한 사라지게된다. 이렇게 계속해서 자기 자신에게 연결된 간선이 0개인 정점을 출력해 위상정렬 할 수 있다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">topo_sort</span>(GraphType1<span style="color:#ff79c6">*</span> g) {
+    <span style="color:#8be9fd">int</span> i;
+    StackType s;
+    GraphNode<span style="color:#ff79c6">*</span> node;
+
+    <span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> in_degree <span style="color:#ff79c6">=</span> (<span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span>)malloc(g<span style="color:#ff79c6">-&gt;</span>n <span style="color:#ff79c6">*</span> <span style="color:#ff79c6">sizeof</span>(<span style="color:#8be9fd">int</span>));
+    <span style="color:#ff79c6">for</span> (i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        in_degree[i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    }
+    <span style="color:#ff79c6">for</span> (i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        GraphNode<span style="color:#ff79c6">*</span> node <span style="color:#ff79c6">=</span> g<span style="color:#ff79c6">-&gt;</span>adj_list[i];
+        <span style="color:#ff79c6">while</span> (node <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            in_degree[node<span style="color:#ff79c6">-&gt;</span>vertex]<span style="color:#ff79c6">++</span>;
+            node <span style="color:#ff79c6">=</span> node<span style="color:#ff79c6">-&gt;</span>link;
+        }
+    }
+
+    init(<span style="color:#ff79c6">&amp;</span>s);
+    <span style="color:#ff79c6">for</span> (i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">if</span> (in_degree[i] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) push(<span style="color:#ff79c6">&amp;</span>s, i);
+    }
+
+    <span style="color:#ff79c6">while</span> (<span style="color:#ff79c6">!</span>is_empty(<span style="color:#ff79c6">&amp;</span>s)) {
+        <span style="color:#8be9fd">int</span> w;
+        w <span style="color:#ff79c6">=</span> pop(<span style="color:#ff79c6">&amp;</span>s);
+        printf(<span style="color:#f1fa8c">&#34;정점 %d -&gt;&#34;</span>, w);
+        node <span style="color:#ff79c6">=</span> g<span style="color:#ff79c6">-&gt;</span>adj_list[w];
+        <span style="color:#ff79c6">while</span> (node <span style="color:#ff79c6">!=</span> <span style="color:#8be9fd;font-style:italic">NULL</span>) {
+            <span style="color:#8be9fd">int</span> u <span style="color:#ff79c6">=</span> node<span style="color:#ff79c6">-&gt;</span>vertex;
+            in_degree[u]<span style="color:#ff79c6">--</span>;
+            <span style="color:#ff79c6">if</span> (in_degree[u] <span style="color:#ff79c6">==</span> <span style="color:#bd93f9">0</span>) push(<span style="color:#ff79c6">&amp;</span>s, u);
+            node <span style="color:#ff79c6">=</span> node<span style="color:#ff79c6">-&gt;</span>link;
+        }
+    }
+
+    free(in_degree);
+    printf(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+}
+</code></pre></td></tr></table>
+</div>
+</div><p><img src="/images/study/Algorithms/topologicalSort/6.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/7.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/8.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/9.JPG" alt="">
+<img src="/images/study/Algorithms/topologicalSort/10.JPG" alt=""></p>
+<p>이 그림은 두번째 위상정렬 방법이다. 이 방법은 깊이우선탐색을 이용한 방법으로, 더 이상 간선이 연결되어 있지 않을때 까지 깊이우선탐색을 진행하게 된다. 위 그림은 스프넣기를 시작으로 깊이우선탐색을 하면 계란 풀어넣기에서 더이상 갈 곳이 없게된다. 이렇게 계란 풀어넣기를 연결리스트 맨앞에 연결하고, 다시 되돌아 나와 스프넣기를 또다시 연결리스트 맨앞에 연결하게 된다. 그 후에 냄비에 물 붓기 부터 다시 시작해 점화 -&gt; 라면넣기로 들어가게 되고 더이상 라면넣기에서 들어갈수있는 곳이 없기때문에 라면넣기를 다시 아까 만들었던 연결리스트 맨앞에 연결시켜준다. 이렇게 반복을 통해 위상정렬이 된 리스트를 구할 수 있다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">DFS_TS</span>(GraphType1<span style="color:#ff79c6">*</span> g, <span style="color:#8be9fd">int</span> v) {
+    GraphNode<span style="color:#ff79c6">*</span> w;
+    GraphNode<span style="color:#ff79c6">*</span> newNode <span style="color:#ff79c6">=</span> malloc(<span style="color:#ff79c6">sizeof</span>(GraphNode));
+    visited[v] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+    <span style="color:#ff79c6">for</span> (w <span style="color:#ff79c6">=</span> g<span style="color:#ff79c6">-&gt;</span>adj_list[v]; w; w <span style="color:#ff79c6">=</span> w<span style="color:#ff79c6">-&gt;</span>link) {
+        <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>visited[w<span style="color:#ff79c6">-&gt;</span>vertex])
+            DFS_TS(g, w<span style="color:#ff79c6">-&gt;</span>vertex);
+    }
+    newNode<span style="color:#ff79c6">-&gt;</span>vertex <span style="color:#ff79c6">=</span> v;
+    newNode<span style="color:#ff79c6">-&gt;</span>link <span style="color:#ff79c6">=</span> node;
+    node <span style="color:#ff79c6">=</span> newNode;
+}
+
+<span style="color:#8be9fd">void</span> <span style="color:#50fa7b">topologicalSort2</span>(GraphType1<span style="color:#ff79c6">*</span> g) {
+    <span style="color:#8be9fd">int</span> start;
+
+    printf(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n\n</span><span style="color:#f1fa8c">시작할 정점 입력하세요 : &#34;</span>);
+    scanf(<span style="color:#f1fa8c">&#34;%d&#34;</span>, <span style="color:#ff79c6">&amp;</span>start);
+
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        visited[i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    }
+
+    DFS_TS(g, start);
+    printList(g);
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>visited[i]) {
+            printf(<span style="color:#f1fa8c">&#34;</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">처음으로 돌아갑니다</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>);
+            DFS_TS(g, i);
+            printList(g);
+        }
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/16/BST.html/">Binary Search Tree</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+        <p>Next post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/26/greedy.html/">Greedy</a>
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>

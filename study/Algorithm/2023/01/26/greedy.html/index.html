@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/26/greedy.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">Greedy</h1>
+        <p class="meta">
+            2023-01-26
+        </p>
+    </header>
+    <section class="post-content"><p>눈앞의 이익만 우선 추구하는 알고리즘을 총칭해서 <code>그리디 알고리즘</code>이라고 한다.</p>
+<p>그리디 알고리즘은 대부분의 경우 뛰어난 결과를 도출하지 못하지만 드물게 최적해를 보장하는 경우도 있다. 그리디 알고리즘은 최적화 문제를 대상으로 한다. 최적해를 찾을 수 있으면 그것을 목표로 삼고, 찾기 어려운 경우에는 주어진 시간 내에 그런대로 괜찮은 해를 찾는 것을 목표로 삼는다.</p>
+<p>그리디 알고리즘에서 최적해를 보장하는 알고리즘은 <code>프림알고리즘</code>을 예로 들을 수 있다. 프림알고리즘은 다음 포스팅에서 살펴보도록 하겠다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">Post</span>(<span style="color:#8be9fd">int</span> n) {
+    <span style="color:#8be9fd">int</span> d[<span style="color:#bd93f9">3</span>] <span style="color:#ff79c6">=</span> { <span style="color:#bd93f9">10</span>, <span style="color:#bd93f9">50</span>, <span style="color:#bd93f9">80</span> };
+    <span style="color:#8be9fd">int</span><span style="color:#ff79c6">*</span> dp <span style="color:#ff79c6">=</span> malloc(<span style="color:#ff79c6">sizeof</span>(<span style="color:#8be9fd">int</span>) <span style="color:#ff79c6">*</span> n <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>);
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&lt;=</span> n; i<span style="color:#ff79c6">++</span>) dp[i] <span style="color:#ff79c6">=</span> INT_MAX;
+    dp[<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">3</span>; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#8be9fd">int</span> coin <span style="color:#ff79c6">=</span> d[i];
+        <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> j <span style="color:#ff79c6">=</span> coin; j <span style="color:#ff79c6">&lt;=</span> n; j<span style="color:#ff79c6">++</span>) {
+            dp[j] <span style="color:#ff79c6">=</span> min(dp[j], dp[j <span style="color:#ff79c6">-</span> coin] <span style="color:#ff79c6">+</span> <span style="color:#bd93f9">1</span>);
+        }
+    }
+    <span style="color:#ff79c6">return</span> dp[n];
+}
+
+<span style="color:#8be9fd">int</span> <span style="color:#50fa7b">Post_Greedy</span>(<span style="color:#8be9fd">int</span> n) {
+    <span style="color:#8be9fd">int</span> d[<span style="color:#bd93f9">3</span>] <span style="color:#ff79c6">=</span> { <span style="color:#bd93f9">80</span>, <span style="color:#bd93f9">50</span>, <span style="color:#bd93f9">10</span> };
+    <span style="color:#8be9fd">int</span> count <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+    <span style="color:#8be9fd">int</span> c[<span style="color:#bd93f9">3</span>] <span style="color:#ff79c6">=</span> { <span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span>,<span style="color:#bd93f9">0</span> };
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> <span style="color:#bd93f9">3</span>; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">while</span> (n <span style="color:#ff79c6">&gt;=</span> d[i]) {
+            n <span style="color:#ff79c6">-=</span> d[i];
+            c[i]<span style="color:#ff79c6">++</span>;
+            count<span style="color:#ff79c6">++</span>;
+        }
+    }
+    printf(<span style="color:#f1fa8c">&#34;80원: [%d개] | 50원: [%d개] | 10원: [%d개]</span><span style="color:#f1fa8c">\n</span><span style="color:#f1fa8c">&#34;</span>, c[<span style="color:#bd93f9">0</span>], c[<span style="color:#bd93f9">1</span>], c[<span style="color:#bd93f9">2</span>]);
+    <span style="color:#ff79c6">return</span> count;
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>이 코드는 우표의 갯수를 구하는 문제이다. 만약 내가 가진 돈을 입력했을대, 10원 50원 80원짜리 우표를 최소로 살수 있는 갯수를 구하는 문제이다. <code>Post</code>함수는 <code>다이나믹프로그래밍</code>으로 문제를 푼 방법이고 아래 방법은 그리디 알고리즘을 이용해 문제를 푼 방법이다. 만약 내가 160원을 가지고 있다면 다이나믹 프로그래밍으로도 그리디 알고리즘으로도 80원짜리 2개로 최적해가 구해질 것이다. 하지만 만약 100원을 가지고있다면 다이나믹프로그래밍으로는 50원 2개가 구해지겠지만, 그리디 알고리즘은 80원 1개 10원 2개로 최적해가 보장이 되지않는다. 다음 포스팅에서 <code>DP(다이나믹프로그래밍)</code>도 알아보도록 하겠다.</p></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/26/topologicalSort.html/">topologicalSort</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>
