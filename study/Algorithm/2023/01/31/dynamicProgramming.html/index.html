@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/01/31/dynamicProgramming.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">Dynamic Programming</h1>
+        <p class="meta">
+            2023-01-31
+        </p>
+    </header>
+    <section class="post-content"><p><code>다이나믹 프로그래밍(동적 프로그래밍)</code>은 하나의 문제를 단 한 번만 풀도록 하는 알고리즘이다.</p>
+<p>상당수의 분할정복 기법은 동일한 문제를 다시 푼다는 단점을 가지고 있다. 하지만 다이나믹 프로그래밍은 단 한 번만 풀도록 하는 알고리즘이다.</p>
+<p>피보나치를 예로들어보겠다. 피보나치의 경우 <code>f(n) = f(n-1) + f(n-2)</code>라는 재귀적인 사고로 아주 간단하게 풀어나갈 수 있다. 하지만 재귀적인 사고는 여러번의 중복호출이 존재한다.</p>
+<p><img src="/images/study/Algorithms/dynamicProgramming/1.jpg" alt=""></p>
+<p>이렇게 중복호출된 피보나치 함수는 엄청난 비효율을 초래할 수 있다.</p>
+<p>피보나치 수열을 <code>다이나믹 프로그래밍(동적 프로그래밍)</code>으로 풀게 되었을때는 <code>f[n] = f[n-1] + f[n-2]</code>의 개념으로 문제를 풀 수있다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">fibonacci(n){
+    f[<span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+    f[<span style="color:#bd93f9">2</span>] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+
+    <span style="color:#ff79c6">for</span>(<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">3</span>; i <span style="color:#ff79c6">&lt;</span> n; i<span style="color:#ff79c6">++</span>){
+        f[i] <span style="color:#ff79c6">=</span> f[i<span style="color:#ff79c6">-</span><span style="color:#bd93f9">1</span>] <span style="color:#ff79c6">+</span> f[i<span style="color:#ff79c6">-</span><span style="color:#bd93f9">2</span>];
+    }
+    <span style="color:#ff79c6">return</span> f[n];
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>이렇게 위의 코드를 사용하면 재귀처럼 중복호출 없이 사용이 가능하다.</p>
+<p>이외에 행렬경로 문제에 대해 살펴보겠다.</p>
+<p><img src="/images/study/Algorithms/dynamicProgramming/2.jpg" alt=""></p>
+<p>양수로 이루어진 n x n행렬이 주어진다. 행렬의 왼쪽 위에서 시작해 한 칸씩 이동해 오른쪽 아래까지 도달한다. 이 과정에서 방문한 칸에 있는 수들을 더한 값이 이 경로의 합이다. 이동규칙은 다음과 같다.</p>
+<ol>
+<li>오른쪽이나 아래쪽으로만 이동할 수 있다.</li>
+<li>왼쪽, 위쪽, 대각선 이동은 허용하지 않는다.</li>
+</ol>
+<p>경로의 합중 가장 큰 값을 찾아야 하는 문제인데, 부분 또한 재귀로 풀게되면 피보나치와 동일하게 여러번의 중복호출이 존재한다. 하지만 다이나믹 프로그래밍으로 문제를 풀게 된다면 아주 간단하게 문제를 풀 수 있다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">int</span> <span style="color:#50fa7b">matrixPath</span>(<span style="color:#8be9fd">int</span> n) {
+
+    c[<span style="color:#bd93f9">0</span>][<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">=</span> arr[<span style="color:#bd93f9">0</span>][<span style="color:#bd93f9">0</span>];
+
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&lt;</span> n; i<span style="color:#ff79c6">++</span>)
+        c[i][<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">=</span> arr[i][<span style="color:#bd93f9">0</span>] <span style="color:#ff79c6">+</span> c[i <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>][<span style="color:#bd93f9">0</span>];
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&lt;</span> n; i<span style="color:#ff79c6">++</span>)
+        c[<span style="color:#bd93f9">0</span>][i] <span style="color:#ff79c6">=</span> arr[<span style="color:#bd93f9">0</span>][i] <span style="color:#ff79c6">+</span> c[<span style="color:#bd93f9">0</span>][i <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>];
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; i <span style="color:#ff79c6">&lt;</span> n; i<span style="color:#ff79c6">++</span>) {
+        <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> j <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>; j <span style="color:#ff79c6">&lt;</span> n; j<span style="color:#ff79c6">++</span>)
+            c[i][j] <span style="color:#ff79c6">=</span> arr[i][j] <span style="color:#ff79c6">+</span> max(c[i <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>][j], c[i][j <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>]);
+    }
+    <span style="color:#ff79c6">return</span> c[n <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>][n <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>];
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>c배열이 경로의 합들이 저장될 배열이고 arr배열이 행렬의 가중치가 저장되어 있는 배열이다. 오른쪽과 아래쪽으로만 이동할 수 있기때문에, 현재 위치에서 왼쪽과 위쪽중 가장 큰 경로합과 현재 위치의 가중치를 더해주면 된다. 첫번째와 두번째 for문은 각각 노랑과 주황 부분의 경로합을 결정해준다. 이후 초록 부분은 세번째 for문 중첩을 이용해 왼쪽과 위중 가중치가 더 큰값에 더하기를 해준다. 이렇게 구해진 경로가 회색 경로이다.</p></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/01/26/greedy.html/">Greedy</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>
