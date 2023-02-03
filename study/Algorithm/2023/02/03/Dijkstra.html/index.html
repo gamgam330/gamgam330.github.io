@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/Algorithm/2023/02/03/Dijkstra.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">Dijkstra</h1>
+        <p class="meta">
+            2023-02-03
+        </p>
+    </header>
+    <section class="post-content"><p><code>Dijkstra(다익스트라)</code> 알고리즘은 최단경로를 구하는 알고리즘으로 시작정점과 도착정점의 최단 경로를 구하는 알고리즘이다.</p>
+<p>최단 경로문제는 만약 음의 가중치가 존재하지 않으면 다익스트라 알고리즘을 사용하지만, 음의 가중치가 존재하면 <code>벨만-포드</code> 알고리즘을 사용한다. 하지만 나는 다익스트라 알고리즘에 대해서만 포스팅 하도록 하겠다.</p>
+<p>다익스트라 알고리즘은 이전 포스팅에서 볼 수 있는 프림알고리즘의 원리와 비슷하다. 다익스트라 알고리즘은 정점 r에서 정점 v에 이르는 최단 거리를 위해 사용되고 프림알고리즘은 정점이 n개일때 n-1개의 간선을 모두 연결할때 가중치의 합이 가장 작은 트리를 구하는 차이가 있다.</p>
+<p><img src="/images/study/Algorithms/Dijkstra/1.jpg" alt="">
+<img src="/images/study/Algorithms/Dijkstra/2.jpg" alt=""></p>
+<p>이전 포스팅에서는 각 정점을 방문할 수 있는 <code>가장 작은 가중치값</code>을 저장했다면, 다익스트라 알고리즘에서는 각 정점에 방문할때 사용해야하는 <code>가장 작은 가중치의합</code>이 저장된다.</p>
+<p>위의 그림처럼 시작정점을 기준으로 각 정점을 방문하는데 드는 가중치합을 각 정점에 저장해줌으로써, 1번정점에서 2번정점 / 1번정점에서 5번정점 등의 값을 구하고자 할때 그 정점에 저장된 가중치의 합들만 불러주면 된다.</p>
+<div class="highlight"><div style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre tabindex="0" style="color:#f8f8f2;background-color:#282a36;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#8be9fd">void</span> <span style="color:#50fa7b">Dijkstra_shortestPath</span>(GraphType2<span style="color:#ff79c6">*</span> g, <span style="color:#8be9fd">int</span> start) {
+    <span style="color:#8be9fd">int</span> u, w;
+
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; i<span style="color:#ff79c6">++</span>) {
+        distance[i] <span style="color:#ff79c6">=</span> g<span style="color:#ff79c6">-&gt;</span>weight[start][i];                      <span style="color:#6272a4">//가중치와 방문 여부 초기화
+</span><span style="color:#6272a4"></span>        visited2[i] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;
+        prev[i] <span style="color:#ff79c6">=</span> g<span style="color:#ff79c6">-&gt;</span>PREV[start][i];
+    }
+
+    visited2[start] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+    distance[start] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>;                                        <span style="color:#6272a4">//시작점 초기화
+</span><span style="color:#6272a4"></span>
+    <span style="color:#ff79c6">for</span> (<span style="color:#8be9fd">int</span> i <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; i <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n <span style="color:#ff79c6">-</span> <span style="color:#bd93f9">1</span>; i<span style="color:#ff79c6">++</span>) {
+        u <span style="color:#ff79c6">=</span> nextVertex(g<span style="color:#ff79c6">-&gt;</span>n);
+        visited2[u] <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">1</span>;
+
+
+        <span style="color:#ff79c6">for</span> (w <span style="color:#ff79c6">=</span> <span style="color:#bd93f9">0</span>; w <span style="color:#ff79c6">&lt;</span> g<span style="color:#ff79c6">-&gt;</span>n; w<span style="color:#ff79c6">++</span>)
+            <span style="color:#ff79c6">if</span> (<span style="color:#ff79c6">!</span>visited2[w]) {
+                <span style="color:#ff79c6">if</span> (distance[u] <span style="color:#ff79c6">+</span> g<span style="color:#ff79c6">-&gt;</span>weight[u][w] <span style="color:#ff79c6">&lt;</span> distance[w]) {          <span style="color:#6272a4">//지나쳐온 정점의 가중치와 현재 간선의 가중치의 합이 현재 저장되어있는 distance보다 작으면
+</span><span style="color:#6272a4"></span>                    distance[w] <span style="color:#ff79c6">=</span> distance[u] <span style="color:#ff79c6">+</span> g<span style="color:#ff79c6">-&gt;</span>weight[u][w];            <span style="color:#6272a4">//대입
+</span><span style="color:#6272a4"></span>                    prev[w] <span style="color:#ff79c6">=</span> u;                                            <span style="color:#6272a4">//지나온 간선 초기화
+</span><span style="color:#6272a4"></span>                }
+            }
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#Algorithm">#Algorithm</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/02/02/MST.html/">Minimum Spanning Tree</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>

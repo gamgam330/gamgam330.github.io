@@ -6,7 +6,16 @@
     <description>Recent content in Algorithm on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Thu, 02 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/subcategories/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/subcategories/Algorithm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Dijkstra</title>
+      <link>https://gamgam330.github.io/study/Algorithm/2023/02/03/Dijkstra.html/</link>
+      <pubDate>Fri, 03 Feb 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/Algorithm/2023/02/03/Dijkstra.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;Dijkstra(다익스트라)&lt;/code&gt; 알고리즘은 최단경로를 구하는 알고리즘으로 시작정점과 도착정점의 최단 경로를 구하는 알고리즘이다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Minimum Spanning Tree</title>
       <link>https://gamgam330.github.io/study/Algorithm/2023/02/02/MST.html/</link>
