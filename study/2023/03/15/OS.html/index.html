@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap"
+    rel="stylesheet">
+
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+
+    <base href="https://gamgam330.github.io/">
+    <title> gamgam&#39;s blog </title>
+    <meta name="description" content="gamgam&#39;s blog">
+
+    <link rel="canonical" href="https://gamgam330.github.io/study/2023/03/15/OS.html/">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
+
+    
+    <link rel="stylesheet" href="https://gamgam330.github.io/sass/main.min.8d58f9ab31818c91abecff2fde5e87e083101edf00fb76a93740014a66d8e666.css">
+
+    <link rel="shortcut icon" href="https://gamgam330.github.io/img/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+        integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            $(".cat1>li").click(function () {
+                $(this).siblings().find('ul').slideUp(300);
+                $(this).find('ul').slideToggle(300);
+            })
+
+            $(window).scroll(function () {
+                activeBg();
+            });
+
+            activeBg();
+
+
+            $('.h-menu').click(function (e) {
+                e.preventDefault();
+                $('.side').addClass('on');
+            });
+
+            $('.close').click(function (e) {
+                e.preventDefault();
+                $('.side').removeClass('on');
+            });
+
+            $('ul.slide>li').click(function () {
+                if ($(this).find('.down').hasClass('on')) {
+                    $(this).find('.down').removeClass('on');
+                    $(this).find('.down').prev().stop().slideUp(500);
+                } else {
+                    $(this).find('.down').addClass('on');
+                    $(this).find('.down').prev().stop().slideDown(500);
+                }
+            })
+        })
+
+        function activeBg() {
+            if ($(window).scrollTop() > 0) {
+                $('.site-header').addClass('on');
+            } else {
+                $('.site-header').removeClass('on');
+            }
+        }
+    </script>
+</head>
+<header class="site-header">
+    <h1 class="web-t" onclick="window.location.href='/'"><span>public static</span><em> 천방지축 얼렁뚱땅
+        </em><span>(</span><i>🤣</i><span>)</span>:<br />
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="nbsp">title =</span> 빙글빙글 돌아가는 구만이의 개발일지
+        <br />
+    </h1>
+
+    <h1 class="mob-t" onclick="window.location.href='/'">
+        <span>천/얼/빙/돌(</span><i>🤣</i><span>)</span>
+        <br />구만이의 개발일지
+    </h1>
+
+    <nav>
+        <div class="h-menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="side">
+            <div class="close">
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="slide">
+                <li class="on"><a href="#">All Post</a>
+                </li>
+                <li><a>Study</a>
+                    <ul>
+                        <li><a href="https://gamgam330.github.io//study/baekjoon">Baekjoon</a></li>
+                    </ul>
+                    <span class="down"></span>
+                </li>
+                <hr />
+                <li><a href="https://gamgam330.github.io//about">About</a></li>
+                <li><a href="https://gamgam330.github.io//archive">Archive</a></li>
+                <li><a href="https://gamgam330.github.io//tags">Tag</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+
+<body>
+    <div class="content">
+        
+        
+
+<article>
+    <header>
+        <h1 class="title">Operating system(1)</h1>
+        <p class="meta">
+            2023-03-15
+        </p>
+    </header>
+    <section class="post-content"><p><code>운영체제</code>란 하드웨어를 관리하는 소프트웨어이다.</p>
+<p>또 운영체제는 사용자 또는 어플리케이션에게 <code>하드웨어를 제어</code>할 수 있도록 <code>인터페이스 제공</code>하는 소프트웨어라고 할 수 있다. OS는 <code>Unix</code>, <code>Linux</code>, <code>macOS</code>, <code>Windows</code> 등이 존재한다.</p>
+<p>운영체제는 크게 4가지 역할을 담당한다.</p>
+<ol>
+<li>하드웨어 관리
+<ul>
+<li>여러 어플리케이션이 하드웨어를 효율적으로 사용할 수 있도록 관리해준다.</li>
+</ul>
+</li>
+<li>하드웨어 보호
+<ul>
+<li>악의적이거나 미숙한 사용자로부터 하드웨어를 보호하여 OS의 안정성을 보장한다.</li>
+</ul>
+</li>
+<li>하드웨어 인터페이스 제공
+<ul>
+<li>악의적이거나 미숙한 사용자로부터 하드웨어를 보호하기 위해 하드웨어를 일관된 방법으로 다룰 수 있도록 인터페이스를 제공한다.</li>
+</ul>
+</li>
+<li>사용자 인터페이스 제공
+<ul>
+<li>사용자가 Os를 편하게 사용할 수 있도록 GUI 또는 CUI 어플리케이션을 제공한다.</li>
+</ul>
+</li>
+</ol>
+<p>운영체제에는 <code>커널</code>이라는 부분이 존재하는데, 이 커널이라는 부분이 가장 중요하다. 어플리케이션이나 사용자가 하드웨어를 사용하기 위해서는 항상 커널을 거쳐야만한다. 커널을 거치지 않고는 하드웨어를 사용할 수 없다. 어플리케이션 또는 사용자와 커널의 연결을 <code>System call(시스템 콜)</code>이 담당하고, 커널과 하드웨어의 연결은 <code>디바이스 드라이버</code>라는 소프트웨어가 담당한다. 단순한 하드웨어는 <code>디바이스 드라이버</code>가 커널에서 제공되지만 복잡한 복사기나 스캐너같은 하드웨어는 <code>디바이스 드라이버</code>를 따로 깔아주어야한다.</p>
+<p>운영체제는 초창기컴퓨터(진공관) -&gt; 일괄 작업 시스템(천공카드) -&gt; 대화형 시스템(키보드, 모니터) -&gt; 시분할 시스템 -&gt; 분산 시스템 -&gt; 클라이언트/서버 시스템 -&gt; P2P 시스템 -&gt; 그리드 컴퓨팅 순으로 진화해 왔다.</p>
+<ol>
+<li>진공관
+<ul>
+<li>진공관은 빛을 이용해 0과 1만으로 간단한 계산이 가능했던 초창기 컴퓨터이다.</li>
+</ul>
+</li>
+<li>일괄 작업 시스템
+<ul>
+<li>진공관과 전선으로 구성된 논리회로를 아주 작은 크기의 IC 칩으로 구현한것. 입출력장치로는 키보드와 모니터대신 <code>천공카드</code>와 <code>라인프린터</code>가 사용되었다. 당시에는 한 번에 한 가지 작업만 실행가능했기 때문에 여러 개의 작업을 단일 작업으로 묶어서 일괄처리했다. 단점으로는 실행 중간에 프로그램을 멈추거나 데이터를 입력하지 못했다는것이다.</li>
+</ul>
+</li>
+<li>대화형 시스템
+<ul>
+<li>프로그램 실행 중간에 데이터를 입력하거나 실행 과정 확인이 가능하다.</li>
+</ul>
+</li>
+<li>시분할 시스템
+<ul>
+<li>CPU 사용 시간을 잘게 쪼개서 작업들을 나누어주는 방법이다. 동시에 여러 작업이 실행 가능하게 되었다. 여러개의 작업을 라운드로빈으로 돌려 CPU사용시간을 할당해 주는 방법이다.</li>
+</ul>
+</li>
+<li>분산 시스템
+<ul>
+<li>작은 컴퓨터를 인터넷을 통해 하나로 묶어 대형 컴퓨터의 성능에 버금가도록 구현된 시스템이다. 이방법은 하나의 일을 저성능 컴퓨터들에게 소규모 연산으로 나누어 분산하는 방법이다.</li>
+</ul>
+</li>
+<li>클라이언트/서버 시스템
+<ul>
+<li>작업을 요청하는 클라이언트와 요청 받는 작업을 처리하여 응답하는 서버로 구성되어있다.</li>
+</ul>
+</li>
+<li>P2P 시스템
+<ul>
+<li>서버를 거치지 않고 사용자 컴퓨터들을 직접 연결하는 방법이다.</li>
+</ul>
+</li>
+<li>그리드 컴퓨팅
+<ul>
+<li>비용을 지불한 뒤 필요한 계산자원을 인터넷을 통해 사용하는 시스템이다. 분산 시스템의 한 분야로 서로 다른 기종의 컴퓨터를 묶어 대용량의 컴퓨터 풀을 구성하는 컴퓨팅 환경이다.</li>
+</ul>
+</li>
+</ol>
+<p>이 외에도 <code>Iaas</code>, <code>Paas</code>, <code>Saas</code>가 존재한다.
+<code>Iaas</code>는 서비스형 인프라 스트럭처로 비용을 지불한 뒤 필요한 서버를 운영하는데 필요한 컴퓨터 <code>하부구조</code>를 사용가능한 시스템이다.</p>
+<p><code>Paas</code>는 서비스형 플랫폼으로 Iaas보다 한단계 더 나아가 개발환경까지 구축된 시스템이다.</p>
+<p><code>Saas</code>는 서비스형 소프트웨어로 Paas보다 더 나아가 모든 기능이 구현되어있는 소프트웨어를 말한다.</p>
+<p>커널에대해 간략하게 설명했는데 지금부터 커널에대해 자세하게 설명해보도록 하겠다. 커널의 역할은 <code>프로세스 관리</code>, <code>메모리 관리</code>, <code>파일 시스템 관리</code>, <code>I/O 관리</code>, <code>IPC 관리</code>로 크게 5가지가 존재한다.</p>
+<ol>
+<li>프로세스 관리
+<ul>
+<li>프로세스를 CPU에게 할당</li>
+</ul>
+</li>
+<li>메모리 관리
+<ul>
+<li>프로세스에게 메모리를 할당하고 실제 메모리보다 큰 가상 메모리를 제공한다. 이부분에서 가상메모리는 컴퓨터구조를 공부했다면 쉽게 이해할것이다. 하드웨어는 보조기억장치인데 일부분을 메인메모리로 사용한다. 메인메모리로 사용하는 부분과 메인메모리인 RAM을 합쳐 가상메모리라 부르고 또 따로 RAM을 물리메모리라고 부른다.</li>
+</ul>
+</li>
+<li>파일 시스템 관리
+<ul>
+<li>파일의 저장, 삭제, 읽기를 용이하도록 하고 관리하고 파일에 대한 접근제어 기능을 제공한다.파일을 저장하는 저장장치 내에 존재한다.</li>
+</ul>
+</li>
+<li>I/O 관리
+<ul>
+<li>입출력 장치와 저장 장치를 통한 데이터 입출력을 관리한다. 리눅스는 입출력 장치와 저장 장치를 파일로 취급한다. 여기서 블록 디바이스파일과 문자 디바이스 파일이라는 개념이 정의된다. 블록 디바이스 파일이란 저장 장치로써 블록 단위로 데이터를 전송하는 방법을 말한다 이부분은 chache(캐시)를 생각해보면 된다. 문자 디바이스 파일은 입출력 장치로써 문자 단위로 데이터를 전송하는 방법에 해당한다.</li>
+</ul>
+</li>
+<li>IPC 관리
+<ul>
+<li>프로세스간 통신을 관리한다. 파이프는 프로세스간 단방향 데이터 통신을 의미하고 소켓은 프로세스간 양방향 데이터 통신을 의미한다.</li>
+</ul>
+</li>
+</ol>
+<p>따로 이부분에서 이해가 되지 않는 부분이있어 추가적으로 작성하겠다. <code>프로세스</code>란 현재 실행중인 프로그램을 말한다. 여기에서 <code>IPC</code>는 프로세스들끼리 서로 데이터를 주고받는 행위 또는 그에 대한 방법을 뜻한다고 한다. 예를들어 하나의 업무를 나누어 더 빠르게 수행해야할때 프로세스들 간에 통신이 존재해야한다. 이부분을 IPC가 관리하는것이다.</p>
+<p>추가적으로 블록 디바이스 파일과 문자 디바이스 파일에 대한 설명이다. 리눅스에서 입출력 장치와 저장 장치를 파일로 취급하기 때문에 디바이스 파일이라고 불린다. 블록 디바이스와 문자 디바이스는 디바이스 드라이버이며, 문자디바이스는 시간 순으로 들어오는 데이터를 처리하고, 블록디바이스는 블록단위로 random access가 가능한 데이터들을 처리한다. 예를들어 마우스, 키보드 입력과 같이 순서대로 처리하는 데이터는 문자 디바이스로, 저장장치에 저장되어있는 데이터들은 블록 디바이스로 처리가 가능하다.</p>
+<p>커널의 종류 또한 여러가지이다.</p>
+<ol>
+<li>단일형 구조 커널
+<ul>
+<li>커널의 기능들이 모듈화 되어 있지 않고 하나로 구성된 구조를 말한다. 이구조는 같은 모듈에 존재하기 때문에 통신 비용이 없다는게 장점이지만, 낮은 이식성과 유지 보수가 힘들다는 점 그리고 에러에 취약하다는점이 단점이다.</li>
+</ul>
+</li>
+<li>계층형 구조 커널
+<ul>
+<li>비슷한 커널의 기능들이 하나의 모듈로 묶어서 하나의 계층을 만들고 계층 간의 통신을 통해 커널을 구현한 구조이다. 이 구조는 모듈이 나뉘어져있어 유지보수가 편하고, 에러에 강하다 하지만 커널의 크기가 커질 수 있다는 단점을 가지고 있다.</li>
+</ul>
+</li>
+<li>마이크로 구조 커널
+<ul>
+<li>계층형 구조 커널의 크기가 방대해짐에 따라 커널의 가장 기본적인 기능만 제공하는 구조이다. 대표적인 운영체제로는 macOS와 IOS가 존재하며, 높은 이식성을 제공한다는것이 장점이다.</li>
+</ul>
+</li>
+</ol>
+<p>이렇게 운영체제 공부를 시작하는데&hellip; 아직까지 뭐가 뭔소린지 잘 모르겠지만 이번학기가 끝날때는 운영체제를 마스터 하지않을까 생각한다.</p></section>
+    <footer>
+    <div class="tags">
+        
+        <a href="https://gamgam330.github.io//tags#OperatingSystem">#OperatingSystem</a>
+        
+    </div>
+</footer>
+</article>
+
+<div class="comments">
+ 
+</div>
+
+<div id="post-nav">
+    <div id="previous-post" class="post-nav-post">
+        
+        <p>Previous post</p>
+        <a href="https://gamgam330.github.io/study/Algorithm/2023/02/03/Dijkstra.html/">Dijkstra</a>
+        
+    </div>
+
+    <div id="next-post" class="post-nav-post">
+        
+    </div>
+</div>
+
+
+    </div>
+    <ul class='social'>
+    
+    <li>
+        <a href="https://github.com/gamgam330" class="icon alt" target="_blank">
+            <i class="fa fa-github fa-2x"></i>
+        </a>
+    </li>
+    
+</ul>
+<footer class="site-footer">
+    <p ckass="text">Powered by <a href="https://mingzz1.github.io" target="_blank">mingzzi</a> with <a
+            href="https://skye3133.github.io/" target="_blank">myund</a> and <a href="https://gamgam330.github.io/" target="_blank">90000e</a></p>
+</footer>
+
+
+    
+</body>
+</body>
+
+</html>

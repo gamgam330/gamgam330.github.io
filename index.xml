@@ -6,7 +6,16 @@
     <description>Recent content on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Fri, 03 Feb 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 15 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Operating system(1)</title>
+      <link>https://gamgam330.github.io/study/2023/03/15/OS.html/</link>
+      <pubDate>Wed, 15 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/2023/03/15/OS.html/</guid>
+      <description>&lt;p&gt;&lt;code&gt;운영체제&lt;/code&gt;란 하드웨어를 관리하는 소프트웨어이다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Dijkstra</title>
       <link>https://gamgam330.github.io/study/Algorithm/2023/02/03/Dijkstra.html/</link>
