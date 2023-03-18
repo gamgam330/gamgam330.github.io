@@ -6,7 +6,16 @@
     <description>Recent content in Study on gamgam&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>ko-kr</language>
-    <lastBuildDate>Wed, 15 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/study/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 18 Mar 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://gamgam330.github.io/study/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>network(1)</title>
+      <link>https://gamgam330.github.io/study/2023/03/18/network.html/</link>
+      <pubDate>Sat, 18 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://gamgam330.github.io/study/2023/03/18/network.html/</guid>
+      <description>&lt;p&gt;이번글에서 다뤄볼 내용은 &lt;code&gt;host&lt;/code&gt;와 &lt;code&gt;core&lt;/code&gt;등 이다.&lt;/p&gt;</description>
+    </item>
+    
     <item>
       <title>Operating system(1)</title>
       <link>https://gamgam330.github.io/study/2023/03/15/OS.html/</link>
